@@ -1,0 +1,73 @@
+* {
+    font-family: 'Raleway';
+}
+
+*:hover {
+    cursor:default;
+}
+
+body {
+    align-items:center;
+    background-color: #f7f7f7;
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    align-items:center;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    justify-content:center;
+    margin-bottom:50px;
+    margin-top:50px;
+    width: min(100vmin, 400px);
+}
+
+button {
+    background-color: rgb(40,40,40);
+    border:none;
+    border-radius:3px;
+    color:white;
+    padding: 8px 12px 8px 12px;
+}
+
+#grid {
+    display:grid;
+    width:100%;
+    height: min(100vmin, 400px);
+    grid-template-columns: repeat(1fr, 10);
+    grid-template-rows: repeat(1fr, 9);
+}
+
+#vertical-labels {
+    grid-row: 2 / 10;
+    grid-column: 1 / 2;
+    display:flex;
+    flex-direction:column;
+}
+
+#board {
+    grid-column: 2 / 10;
+    grid-row: 2 / 10;
+}
+#horizontal-labels {
+    grid-row: 10 / 11;
+    grid-column: 2 / 10;
+    display:flex;
+}
+
+.label {
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+#right-space {
+    grid-row: 1 / 11;
+    grid-column: 10 / 11
+}

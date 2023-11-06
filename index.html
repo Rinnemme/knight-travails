@@ -4,9 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Knight</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500&family=Playfair+Display&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
 </head>
 <body>
-    <button onclick="board.shortestPath(start,end)">click me</button>
+    <div id="container">
+        <h1>Knight Travails</h1>
+        <div id="grid">
+            <div id="vertical-labels">
+                <div class="label">8</div>
+                <div class="label">7</div>
+                <div class="label">6</div>
+                <div class="label">5</div>
+                <div class="label">4</div>
+                <div class="label">3</div>
+                <div class="label">2</div>
+                <div class="label">1</div>
+            </div>
+            <div id="board"></div>
+            <div id="horizontal-labels">
+                <div class="label">A</div>
+                <div class="label">B</div>
+                <div class="label">C</div>
+                <div class="label">D</div>
+                <div class="label">E</div>
+                <div class="label">F</div>
+                <div class="label">G</div>
+                <div class="label">H</div>
+            </div>
+            <div id="right-space"></div>
+        </div>
+    </div>
     <script src="index.js"></script>
 </body>
 </html>
