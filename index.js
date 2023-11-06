@@ -90,14 +90,30 @@ const board = (() => {
         resultString += ']'
         return resultString
     }
-
-    const trimPath = () => {
-        if (currentSpace === target) return trimArray.unshift(currentSpace)
-        else return trimPath(array, target, currentSpace.previous, trimArray.unshift(currentSpace))
-    }
-
-    return {spaces, find, shortestPath, trimPath}
+    return {spaces, find, shortestPath}
 })()
+
+const displayBoard = document.getElementById('board')
+
+const display = (() => {
+
+    let spaceColor = 'rgb(255,255,255)'
+    for (let y = 7; y >= 0; y--) {
+        for (let x = 0; x <= 7; x++) {
+            const newSpace = document.createElement('div')
+            newSpace.classList.add('space')
+            newSpace.setAttribute('x', x)
+            newSpace.setAttribute('y', y)
+            newSpace.style.backgroundColor = spaceColor
+            displayBoard.appendChild(newSpace)
+            spaceColor = spaceColor === 'rgb(255,255,255)' ? 'rgb(30,30,30)' : 'rgb(255,255,255)'
+            if (x === 7) spaceColor = spaceColor === 'rgb(255,255,255)' ? 'rgb(30,30,30)' : 'rgb(255,255,255)'
+        }
+    }
+})()
+
+let knightStart = null
+let knightEnd = null
 
 const start = board.find(0,0)
 const end = board.find(4,2)
