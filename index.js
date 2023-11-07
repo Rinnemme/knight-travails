@@ -103,12 +103,14 @@ const display = (() => {
     
     const setKnightStart = (element) => {
         knightStart = board.find(+element.getAttribute('x'), +element.getAttribute('y'))
-        element.style.backgroundColor = 'green'
+        element.style.background = `url('img/start.png')`
+        element.style.backgroundSize = 'cover'
     } 
     
     const setKnightEnd = (element) => {
         knightEnd = board.find(+element.getAttribute('x'), +element.getAttribute('y'))
-        element.style.backgroundColor = 'red'
+        element.style.background = `url('img/end-${board.shortestPath(knightStart, knightEnd).length-1}.png')`
+        element.style.backgroundSize = 'cover'
     }
     
     const resetStartAndEnd = () => {
@@ -129,16 +131,15 @@ const display = (() => {
         let step = 1
         pathArray.forEach(space => {
             const pathSpace = displaySpace(space.x, space.y)
-            pathSpace.style.backgroundColor = 'grey'
-            pathSpace.textContent = step
+            pathSpace.style.background = `url('img/${step}.png')`
+            pathSpace.style.backgroundSize = 'cover'
             step++
         })
     }
     
     const resetBoardVisuals = () => {
         document.querySelectorAll('.space').forEach(space => {
-            space.style.backgroundColor = space.getAttribute('default-color')
-            space.textContent = ''
+            space.style.background = space.getAttribute('default-color')
         })
     }
 
@@ -147,7 +148,6 @@ const display = (() => {
             setKnightStart(element)
         } else if (knightStart !== null && knightEnd === null) {
             setKnightEnd(element)
-            board.shortestPath(knightStart, knightEnd)
             highlightPath()
         } else if (knightStart !== null && knightEnd !== null) {
             resetStartAndEnd()
@@ -172,6 +172,3 @@ const display = (() => {
         }
     }
 })()
-
-// knightStartElement.style.background = "url('url.png')"
-// knightStartElement.style.backgroundSize = 'cover'
