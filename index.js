@@ -84,7 +84,6 @@ const board = (() => {
         while (!path.includes(start)) {
             path.unshift(path[0].previous)
         }
-        console.log(path)
         return path
         // let resultString = `You can get there in ${path.length-1} moves! The path to follow is [`
         // path.forEach(space => {resultString += `${space.position} -> `})
@@ -100,10 +99,8 @@ const displayBoard = document.getElementById('board')
 
 let knightStart = null
 let knightStartElement = null
-let knightStartColor = null
 let knightEnd = null
 let knightEndElement = null
-let knightEndColor = null
 
 const setPath = (element) => {
     if (knightStart === null) {
@@ -121,20 +118,17 @@ const setPath = (element) => {
 const setKnightStart = (element) => {
     knightStart = board.find(+element.getAttribute('x'), +element.getAttribute('y'))
     knightStartElement = element
-    knightStartColor = element.style.backgroundColor
     element.style.backgroundColor = 'green'
 } 
 
 const setKnightEnd = (element) => {
     knightEnd = board.find(+element.getAttribute('x'), +element.getAttribute('y'))
     knightEndElement = element
-    knightEndColor = element.style.backgroundColor
     element.style.backgroundColor = 'red'
 }
 
 const resetStartAndEnd = () => {
-    knightStartElement.style.backgroundColor = knightStartColor
-    knightEndElement.style.backgroundColor = knightEndColor
+    resetBoardVisuals()
     knightStart = null
     knightStartElement = null
     knightStartColor = null
@@ -156,6 +150,13 @@ const highlightPath = () => {
     })
 }
 
+const resetBoardVisuals = () => {
+    document.querySelectorAll('.space').forEach(space => {
+        space.style.backgroundColor = space.getAttribute('default-color')
+        space.textContent = ''
+    })
+}
+
 const displaySpace = (x,y) => {
     return document.getElementById(`${x}-${y}`)
 }
@@ -171,6 +172,7 @@ const display = (() => {
             newSpace.setAttribute('y', y)
             newSpace.setAttribute('id', `${x}-${y}`)
             newSpace.onclick = function() {setPath(this)}
+            newSpace.setAttribute('default-color', spaceColor)
             newSpace.style.backgroundColor = spaceColor
             displayBoard.appendChild(newSpace)
             spaceColor = spaceColor === 'rgb(255,255,255)' ? 'rgb(30,30,30)' : 'rgb(255,255,255)'
