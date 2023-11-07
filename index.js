@@ -95,73 +95,65 @@ const board = (() => {
     return {spaces, find, shortestPath}
 })()
 
-const displayBoard = document.getElementById('board')
-
-let knightStart = null
-let knightStartElement = null
-let knightEnd = null
-let knightEndElement = null
-
-const setPath = (element) => {
-    if (knightStart === null) {
-        setKnightStart(element)
-    } else if (knightStart !== null && knightEnd === null) {
-        setKnightEnd(element)
-        board.shortestPath(knightStart, knightEnd)
-        highlightPath()
-    } else if (knightStart !== null && knightEnd !== null) {
-        resetStartAndEnd()
-        setKnightStart(element)
-    }
-}
-
-const setKnightStart = (element) => {
-    knightStart = board.find(+element.getAttribute('x'), +element.getAttribute('y'))
-    knightStartElement = element
-    element.style.backgroundColor = 'green'
-} 
-
-const setKnightEnd = (element) => {
-    knightEnd = board.find(+element.getAttribute('x'), +element.getAttribute('y'))
-    knightEndElement = element
-    element.style.backgroundColor = 'red'
-}
-
-const resetStartAndEnd = () => {
-    resetBoardVisuals()
-    knightStart = null
-    knightStartElement = null
-    knightStartColor = null
-    knightEnd = null
-    knightEndElement = null
-    knightEndColor = null
-}
-
-const highlightPath = () => {
-    pathArray = board.shortestPath(knightStart, knightEnd)
-    pathArray.pop()
-    pathArray.shift()
-    let step = 1
-    pathArray.forEach(space => {
-        const pathSpace = displaySpace(space.x, space.y)
-        pathSpace.style.backgroundColor = 'grey'
-        pathSpace.textContent = step
-        step++
-    })
-}
-
-const resetBoardVisuals = () => {
-    document.querySelectorAll('.space').forEach(space => {
-        space.style.backgroundColor = space.getAttribute('default-color')
-        space.textContent = ''
-    })
-}
-
-const displaySpace = (x,y) => {
-    return document.getElementById(`${x}-${y}`)
-}
-
 const display = (() => {
+    const displayBoard = document.getElementById('board')
+
+    let knightStart = null
+    let knightEnd = null
+    
+    const setKnightStart = (element) => {
+        knightStart = board.find(+element.getAttribute('x'), +element.getAttribute('y'))
+        element.style.backgroundColor = 'green'
+    } 
+    
+    const setKnightEnd = (element) => {
+        knightEnd = board.find(+element.getAttribute('x'), +element.getAttribute('y'))
+        element.style.backgroundColor = 'red'
+    }
+    
+    const resetStartAndEnd = () => {
+        resetBoardVisuals()
+        knightStart = null
+        knightEnd = null
+    }
+
+
+    const displaySpace = (x,y) => {
+        return document.getElementById(`${x}-${y}`)
+    }
+    
+    const highlightPath = () => {
+        pathArray = board.shortestPath(knightStart, knightEnd)
+        pathArray.pop()
+        pathArray.shift()
+        let step = 1
+        pathArray.forEach(space => {
+            const pathSpace = displaySpace(space.x, space.y)
+            pathSpace.style.backgroundColor = 'grey'
+            pathSpace.textContent = step
+            step++
+        })
+    }
+    
+    const resetBoardVisuals = () => {
+        document.querySelectorAll('.space').forEach(space => {
+            space.style.backgroundColor = space.getAttribute('default-color')
+            space.textContent = ''
+        })
+    }
+
+    const setPath = (element) => {
+        if (knightStart === null) {
+            setKnightStart(element)
+        } else if (knightStart !== null && knightEnd === null) {
+            setKnightEnd(element)
+            board.shortestPath(knightStart, knightEnd)
+            highlightPath()
+        } else if (knightStart !== null && knightEnd !== null) {
+            resetStartAndEnd()
+            setKnightStart(element)
+        }
+    }
 
     let spaceColor = 'rgb(255,255,255)'
     for (let y = 7; y >= 0; y--) {
@@ -171,9 +163,9 @@ const display = (() => {
             newSpace.setAttribute('x', x)
             newSpace.setAttribute('y', y)
             newSpace.setAttribute('id', `${x}-${y}`)
-            newSpace.onclick = function() {setPath(this)}
             newSpace.setAttribute('default-color', spaceColor)
             newSpace.style.backgroundColor = spaceColor
+            newSpace.onclick = function() {setPath(this)}
             displayBoard.appendChild(newSpace)
             spaceColor = spaceColor === 'rgb(255,255,255)' ? 'rgb(30,30,30)' : 'rgb(255,255,255)'
             if (x === 7) spaceColor = spaceColor === 'rgb(255,255,255)' ? 'rgb(30,30,30)' : 'rgb(255,255,255)'
