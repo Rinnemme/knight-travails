@@ -61,6 +61,10 @@ button {
 .space {
     width: 12.5%;
     height: 12.5%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.9em;
 }
 
 .space:hover {

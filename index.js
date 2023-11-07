@@ -84,12 +84,14 @@ const board = (() => {
         while (!path.includes(start)) {
             path.unshift(path[0].previous)
         }
-        let resultString = `You can get there in ${path.length-1} moves! The path to follow is [`
-        path.forEach(space => {resultString += `${space.position} -> `})
-        resultString = resultString.substring(0,resultString.length-4)
-        resultString += ']'
-        console.log(resultString)
-        return resultString
+        console.log(path)
+        return path
+        // let resultString = `You can get there in ${path.length-1} moves! The path to follow is [`
+        // path.forEach(space => {resultString += `${space.position} -> `})
+        // resultString = resultString.substring(0,resultString.length-4)
+        // resultString += ']'
+        // console.log(resultString)
+        // return resultString
     }
     return {spaces, find, shortestPath}
 })()
@@ -109,6 +111,7 @@ const setPath = (element) => {
     } else if (knightStart !== null && knightEnd === null) {
         setKnightEnd(element)
         board.shortestPath(knightStart, knightEnd)
+        highlightPath()
     } else if (knightStart !== null && knightEnd !== null) {
         resetStartAndEnd()
         setKnightStart(element)
@@ -140,6 +143,23 @@ const resetStartAndEnd = () => {
     knightEndColor = null
 }
 
+const highlightPath = () => {
+    pathArray = board.shortestPath(knightStart, knightEnd)
+    pathArray.pop()
+    pathArray.shift()
+    let step = 1
+    pathArray.forEach(space => {
+        const pathSpace = displaySpace(space.x, space.y)
+        pathSpace.style.backgroundColor = 'grey'
+        pathSpace.textContent = step
+        step++
+    })
+}
+
+const displaySpace = (x,y) => {
+    return document.getElementById(`${x}-${y}`)
+}
+
 const display = (() => {
 
     let spaceColor = 'rgb(255,255,255)'
@@ -149,6 +169,7 @@ const display = (() => {
             newSpace.classList.add('space')
             newSpace.setAttribute('x', x)
             newSpace.setAttribute('y', y)
+            newSpace.setAttribute('id', `${x}-${y}`)
             newSpace.onclick = function() {setPath(this)}
             newSpace.style.backgroundColor = spaceColor
             displayBoard.appendChild(newSpace)
@@ -157,3 +178,6 @@ const display = (() => {
         }
     }
 })()
+
+// knightStartElement.style.background = "url('url.png')"
+// knightStartElement.style.backgroundSize = 'cover'
