@@ -63,6 +63,10 @@ button {
     height: 12.5%;
 }
 
+.space:hover {
+    cursor: pointer;
+}
+
 #horizontal-labels {
     grid-row: 10 / 11;
     grid-column: 2 / 10;

@@ -88,12 +88,57 @@ const board = (() => {
         path.forEach(space => {resultString += `${space.position} -> `})
         resultString = resultString.substring(0,resultString.length-4)
         resultString += ']'
+        console.log(resultString)
         return resultString
     }
     return {spaces, find, shortestPath}
 })()
 
 const displayBoard = document.getElementById('board')
+
+let knightStart = null
+let knightStartElement = null
+let knightStartColor = null
+let knightEnd = null
+let knightEndElement = null
+let knightEndColor = null
+
+const setPath = (element) => {
+    if (knightStart === null) {
+        setKnightStart(element)
+    } else if (knightStart !== null && knightEnd === null) {
+        setKnightEnd(element)
+        board.shortestPath(knightStart, knightEnd)
+    } else if (knightStart !== null && knightEnd !== null) {
+        resetStartAndEnd()
+        setKnightStart(element)
+    }
+}
+
+const setKnightStart = (element) => {
+    knightStart = board.find(+element.getAttribute('x'), +element.getAttribute('y'))
+    knightStartElement = element
+    knightStartColor = element.style.backgroundColor
+    element.style.backgroundColor = 'green'
+} 
+
+const setKnightEnd = (element) => {
+    knightEnd = board.find(+element.getAttribute('x'), +element.getAttribute('y'))
+    knightEndElement = element
+    knightEndColor = element.style.backgroundColor
+    element.style.backgroundColor = 'red'
+}
+
+const resetStartAndEnd = () => {
+    knightStartElement.style.backgroundColor = knightStartColor
+    knightEndElement.style.backgroundColor = knightEndColor
+    knightStart = null
+    knightStartElement = null
+    knightStartColor = null
+    knightEnd = null
+    knightEndElement = null
+    knightEndColor = null
+}
 
 const display = (() => {
 
@@ -104,6 +149,7 @@ const display = (() => {
             newSpace.classList.add('space')
             newSpace.setAttribute('x', x)
             newSpace.setAttribute('y', y)
+            newSpace.onclick = function() {setPath(this)}
             newSpace.style.backgroundColor = spaceColor
             displayBoard.appendChild(newSpace)
             spaceColor = spaceColor === 'rgb(255,255,255)' ? 'rgb(30,30,30)' : 'rgb(255,255,255)'
@@ -111,9 +157,3 @@ const display = (() => {
         }
     }
 })()
-
-let knightStart = null
-let knightEnd = null
-
-const start = board.find(0,0)
-const end = board.find(4,2)
